@@ -2,6 +2,7 @@ import './style.less';
 import 'material-design-lite/material.min.js';
 import InputSensor from './modules/input-sensor';
 import Matrix from './modules/matrix';
+import Text from './modules/text';
 
 // Startup
 (() => {
@@ -13,4 +14,8 @@ import Matrix from './modules/matrix';
     new InputSensor('Humidity', 'humidity'),
     new InputSensor('Orientation', 'orientation'),
   ];
+
+  const outputs = [
+    new Text()
+  ]
 })();

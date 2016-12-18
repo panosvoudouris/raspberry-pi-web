@@ -8,7 +8,7 @@ class InputSensor {
 
     console.log(`Starting ${this.service_type}`);
 
-    $(`#${this.route} .refresh-button`).click(this.refresh.bind(this))
+    $(`#${this.route} .refresh-button`).click(this.refresh.bind(this));
   }
 
   get endpoint() {
@@ -18,7 +18,7 @@ class InputSensor {
   refresh() {
     $(`#${this.route}`).addClass('is-loading');
     fetch( this.endpoint, {
-    	method: 'get'
+    	method: 'GET'
     }).then( (response) => {
       // A few assumptions here but hey...
       return response.json()
