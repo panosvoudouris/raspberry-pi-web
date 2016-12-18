@@ -3,9 +3,26 @@
 .data-display {
   h1, h5 {
     display: inline-block;
+    opacity: 1;
   }
 
   h5 {
     margin-left: 15px;
+  }
+}
+
+.input-cell {
+  .mdl-spinner {
+    display: none;
+  }
+}
+
+.input-cell.is-loading {
+  .mdl-spinner {
+    display: inline-block;
+  }
+
+  h1, h5 {
+    opacity: 0;
   }
 }
