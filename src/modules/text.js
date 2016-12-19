@@ -1,8 +1,9 @@
 import $ from 'jquery';
+import config from '../config';
 
 class Text {
   constructor() {
-    this.host = 'pi';
+    this.host = config.host;
     this.route = 'show';
 
     console.log(`Starting Text`);

@@ -1,8 +1,9 @@
 import $ from 'jquery';
+import config from '../config';
 
 class InputSensor {
   constructor(service_type, route) {
-    this.host = 'pi';
+    this.host = config.host;
     this.service_type = service_type;
     this.route = route;
 
