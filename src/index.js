@@ -16,6 +16,7 @@ import Text from './modules/text';
   ];
 
   const outputs = [
-    new Text()
+    new Text(),
+    new Matrix()
   ]
 })();
