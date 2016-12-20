@@ -1,39 +1,37 @@
 import $ from 'jquery';
-import config from '../config';
+import Base from './base';
 
-class InputSensor {
-  constructor(service_type, route) {
-    this.host = config.host;
-    this.service_type = service_type;
+class InputSensor extends Base {
+  constructor(serviceType, route) {
+    super();
+    this.serviceType = serviceType;
     this.route = route;
 
-    console.log(`Starting ${this.service_type}`);
+    console.log(`Starting ${this.serviceType}`);
 
     $(`#${this.route} .refresh-button`).click(this.refresh.bind(this));
   }
 
-  get endpoint() {
-    return `http://${this.host}:8080/${this.route}`;
-  }
-
   refresh() {
     $(`#${this.route}`).addClass('is-loading');
-    fetch( this.endpoint, {
-    	method: 'GET'
-    }).then( (response) => {
+    /* eslint-disable */
+    fetch(this.endpoint, {
+      method: 'GET'
+    }).then((response) => {
+      /* eslint-enable */
       // A few assumptions here but hey...
       return response.json()
-        .then((response) => {
+        .then((jsonResponse) => {
           $(`#${this.route}`).removeClass('is-loading');
-          console.log(`Response ${response.data} from ${this.endpoint}`);
-          $(`#${this.route} h1`).text(parseInt(response.data));
+          console.log(`Response ${jsonResponse.data} from ${this.endpoint}`);
+          $(`#${this.route} h1`).text(parseInt(jsonResponse.data, 10));
         });
-    }).catch( (err) => {
+    }).catch((err) => {
       $(`#${this.route}`).removeClass('is-loading');
-    	console.log(`Error ${err} while trying to access ${this.endpoint}`);
+      console.log(`Error ${err} while trying to access ${this.endpoint}`);
       $(`#${this.route} h1`).text('...');
     });
   }
-};
+}
 
 export default InputSensor;

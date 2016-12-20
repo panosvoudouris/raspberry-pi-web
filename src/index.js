@@ -1,5 +1,7 @@
+/* eslint-disable */
+
+import 'material-design-lite/material.min';
 import './style.less';
-import 'material-design-lite/material.min.js';
 import InputSensor from './modules/input-sensor';
 import Matrix from './modules/matrix';
 import Text from './modules/text';
@@ -19,4 +21,6 @@ import Text from './modules/text';
     new Text(),
     new Matrix()
   ]
+
+
 })();

@@ -1,12 +1,12 @@
 import $ from 'jquery';
-import config from '../config';
+import Base from './base';
 
 const e = [0, 0, 0];
 const active = [255, 255, 255];
 
-class Matrix {
+class Matrix extends Base {
   constructor() {
-    this.host = config.host;
+    super();
     this.route = 'matrix';
     this.autoUpdate = false;
 
@@ -18,21 +18,17 @@ class Matrix {
       e, e, e, e, e, e, e, e,
       e, e, e, e, e, e, e, e,
       e, e, e, e, e, e, e, e,
-      e, e, e, e, e, e, e, e
-    ]
+      e, e, e, e, e, e, e, e,
+    ];
 
-    console.log(`Starting 8x8 Matrix`);
-    $("#matrix-display").click(this.updateMatrix.bind(this));
-    $("#matrix-update").change(this.autoUpdateToggle.bind(this));
+    console.log('Starting 8x8 Matrix');
+    $('#matrix-display').click(this.updateMatrix.bind(this));
+    $('#matrix-update').change(this.autoUpdateToggle.bind(this));
   }
 
-  get endpoint() {
-    return `http://${this.host}:8080/${this.route}`;
-  }
-
-  autoUpdateToggle(event) {
+  autoUpdateToggle() {
     this.autoUpdate = $('#matrix-update:checked').length > 0;
-    if( this.autoUpdate ) {
+    if (this.autoUpdate) {
       this.send();
     }
   }
@@ -41,23 +37,22 @@ class Matrix {
     const col = event.target.cellIndex;
     const row = event.target.parentElement.rowIndex;
 
-
-
-    if( $(event.target).hasClass('active') ) {
+    if ($(event.target).hasClass('active')) {
       $(event.target).removeClass('active');
-      this.matrix[row * 8 + col] = e;
+      this.matrix[(row * 8) + col] = e;
     } else {
       $(event.target).addClass('active');
-      this.matrix[row * 8 + col] = active;
+      this.matrix[(row * 8) + col] = active;
     }
 
-    if( this.autoUpdate ) {
+    if (this.autoUpdate) {
       this.send();
     }
   }
 
   send() {
     const matrix = this.matrix;
+    /* eslint-disable */
     const headers = new Headers({
       'Content-Type': 'application/json'
     });
@@ -65,14 +60,15 @@ class Matrix {
     fetch( this.endpoint, {
       method: 'POST',
       mode: 'no-cors',
-      headers: headers,
-      body: JSON.stringify({ matrix })
-    }).then( (response) => {
+      headers,
+      body: JSON.stringify({ matrix }),
+    }).then((response) => {
       console.log(`Success sending ${matrix} to ${this.endpoint}`);
-    }).catch( (err) => {
+    }).catch((err) => {
       console.log(`Error ${err} while sending ${matrix} to ${this.endpoint}`);
     });
+    /* eslint-enable */
   }
-};
+}
 
 export default Matrix;

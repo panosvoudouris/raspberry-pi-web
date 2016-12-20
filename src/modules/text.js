@@ -1,18 +1,14 @@
 import $ from 'jquery';
-import config from '../config';
+import Base from './base';
 
-class Text {
+class Text extends Base {
   constructor() {
-    this.host = config.host;
+    super();
     this.route = 'show';
 
-    console.log(`Starting Text`);
+    console.log('Starting Text');
 
-    $("#display-text .send-button").click(this.send.bind(this));
-  }
-
-  get endpoint() {
-    return `http://${this.host}:8080/${this.route}`;
+    $('#display-text .send-button').click(this.send.bind(this));
   }
 
   send() {
@@ -20,25 +16,26 @@ class Text {
     const speed = $('#display-speed-input').val();
     console.log(message, speed);
 
+    /* eslint-disable */
     const headers = new Headers({
   		'Content-Type': 'application/json'
     });
 
-    fetch( this.endpoint, {
-    	method: 'POST',
+    fetch(this.endpoint, {
+      method: 'POST',
       mode: 'no-cors',
-      headers: headers,
+      headers,
       body: JSON.stringify({
-              message,
-              speed
-            })
-    }).then( (response) => {
+        message,
+        speed,
+      }),
+    }).then((response) => {
       console.log(`Success sending ${message} & ${speed} to ${this.endpoint}`);
-    }).catch( (err) => {
+    }).catch((err) => {
       console.log(`Error ${err} while sending text to ${this.endpoint}`);
     });
-
   }
-};
+  /* eslint-enable */
+}
 
 export default Text;
